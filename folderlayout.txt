@@ -1,0 +1,9 @@
+auto-agent/
+  config.yaml
+  metaspec.yaml             # <- produced by your Custom GPT (example below for calculator)
+  agent.py                  # entrypoint
+  llm_providers.py
+  metaspec_loader.py
+  generators/python_exec.py
+  buildrun/python_build.py
+  prompts.py

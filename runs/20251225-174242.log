@@ -1,0 +1,37 @@
+Generating files...
+[agent] Writing requirements.txt
+[agent] Wrote requirements.txt
+[agent] Writing README.md
+[agent] Wrote README.md
+[agent] Generating file: src/calc_cli/__init__.py
+[agent] Wrote file: src/calc_cli/__init__.py
+[agent] Generating file: src/calc_cli/core.py
+[agent] Wrote file: src/calc_cli/core.py
+[agent] Generating file: src/calc_cli/__main__.py
+[agent] Wrote file: src/calc_cli/__main__.py
+[agent] Generating file: tests/test_core.py
+[agent] Wrote file: tests/test_core.py
+[agent] Generating file: tests/test_cli.py
+[agent] Wrote file: tests/test_cli.py
+[agent] Generating file: README.md
+[agent] Wrote file: README.md
+[agent] Generating file: requirements.txt
+[agent] Wrote file: requirements.txt
+Build & Test...
+Stage: venv
+Stage: pip-up
+Stage: install
+Autofix round 1
+[agent] Starting autofix attempt
+[agent] Re-running build_and_test after autofix
+Stage: venv
+Stage: pip-up
+Stage: install
+Autofix round 2
+[agent] Starting autofix attempt
+[agent] Re-running build_and_test after autofix
+Stage: venv
+Stage: pip-up
+Stage: install
+
+❌ FAIL  Project at: /home/rameshbaboov/rameshbaboov/aiprojects/code_agent/outputs/calc_cli

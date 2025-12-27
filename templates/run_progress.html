@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Run {{ run_id }}{% endblock %}
+
+{% block content %}
+<script>
+  setTimeout(function() {
+      window.location.reload();
+  }, 3000);
+</script>
+
+<div class="stacked" style="margin-bottom:1rem;">
+    <h2 style="margin:0;">Run {{ run_id }}</h2>
+    <a href="/" class="btn secondary">Back to config</a>
+</div>
+
+<p style="font-size:0.9rem;">
+    Status:
+    {% if status == "running" %}
+        <span class="status-ok">RUNNING</span>
+    {% elif status == "finished" %}
+        <span class="status-ok">FINISHED</span>
+    {% else %}
+        <span class="status-fail">{{ status }}</span>
+    {% endif %}
+</p>
+
+{% if project_dir %}
+<p style="font-size:0.9rem;">
+    Project directory: <code>{{ project_dir }}</code>
+</p>
+{% endif %}
+
+<div class="panel">
+    <h3>Live log (tail)</h3>
+    <pre>{{ log_tail | e }}</pre>
+    <small>Page refreshes every 3 seconds while the run is active.</small>
+</div>
+{% endblock %}

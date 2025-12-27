@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Configure & Run Agent{% endblock %}
+
+{% block content %}
+<h2>Configure & Run</h2>
+<p style="margin-bottom:1rem;font-size:0.9rem;">
+    Adjust settings, pick a metaspec, and then run <code>agent.py</code> with those options.
+</p>
+
+<form action="/run" method="post">
+    <div class="panel">
+        <h3>LLM Provider</h3>
+        <div class="grid">
+            <div class="field">
+                <label for="provider_name">Provider</label>
+                <select id="provider_name" name="provider_name">
+                    <option value="ollama" {% if cfg.provider.name == "ollama" %}selected{% endif %}>Ollama</option>
+                    <option value="openai" {% if cfg.provider.name == "openai" %}selected{% endif %}>OpenAI</option>
+                </select>
+                <small>Change to OpenAI if you want to use the OpenAI API instead of Ollama.</small>
+            </div>
+            <div class="field">
+                <label for="provider_model">Model</label>
+                <input id="provider_model" type="text" name="provider_model" value="{{ cfg.provider.model }}" />
+                <small>For Ollama, use a local model name; for OpenAI, use a model id.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Runtime & Autofix</h3>
+        <div class="grid">
+            <div class="field">
+                <label for="timeout_llm">LLM timeout (seconds)</label>
+                <input id="timeout_llm" type="number" name="timeout_llm" min="1" value="{{ cfg.timeouts.llm }}" />
+            </div>
+            <div class="field">
+                <label for="timeout_process">Process timeout (seconds)</label>
+                <input id="timeout_process" type="number" name="timeout_process" min="1" value="{{ cfg.timeouts.process }}" />
+            </div>
+            <div class="field">
+                <label for="autofix_max_iterations">Autofix iterations</label>
+                <input id="autofix_max_iterations" type="number" name="autofix_max_iterations" min="0" value="{{ cfg.autofix.max_iterations }}" />
+                <small>0 disables the autofix loop.</small>
+            </div>
+            <div class="field">
+                <label for="project_root">Project root</label>
+                <input id="project_root" type="text" name="project_root" value="{{ cfg.project_root }}" />
+                <small>Folder where generated projects will be created.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Metaspec & Project</h3>
+        <div class="grid">
+            <div class="field">
+                <label for="metaspec_path">Metaspec file</label>
+                <select id="metaspec_path" name="metaspec_path">
+                    {% for item in metaspec_options %}
+                        <option value="{{ item.value }}" {% if item.selected %}selected{% endif %}>
+                            {{ item.label }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <small>Pick which metaspec YAML to run. The selected file is copied into <code>metaspec.yaml</code> for the agent.</small>
+            </div>
+            <div class="field">
+                <label for="project_name">Project name override</label>
+                <input id="project_name" type="text" name="project_name" value="{{ project_name }}" />
+                <small>Leave blank to keep the name from the metaspec.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="stacked" style="margin-top:1.25rem;">
+        <button type="submit" class="btn">Run agent</button>
+        <a href="/" class="btn secondary">Reset form</a>
+    </div>
+</form>
+{% endblock %}

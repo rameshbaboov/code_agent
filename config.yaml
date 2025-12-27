@@ -1,0 +1,9 @@
+provider:
+  name: ollama
+  model: deepseek-coder:latest
+timeouts:
+  llm: 600
+  process: 900
+autofix:
+  max_iterations: 4
+project_root: ./outputs

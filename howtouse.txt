@@ -1,0 +1,15 @@
+# 0) Pre-reqs
+conda create -n autodev python=3.11 -y
+conda activate autodev
+pip install pyyaml rich requests pytest
+
+# 1) Ollama
+ollama pull deepseek-coder:latest
+# ensure ollama service is running
+
+# 2) Put files as above, and save your metaspec.yaml (from Custom GPT)
+
+# 3) Run the agent
+python agent.py
+# -> Creates ./outputs/calc_cli, generates files via DeepSeek, builds venv, runs pytest.
+# -> Writes ./outputs/calc_cli/autogen-report.json and prints PASS/FAIL

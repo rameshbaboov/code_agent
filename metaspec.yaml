@@ -1,0 +1,97 @@
+version: 1
+project:
+  name: calc_cli
+  summary: CLI calculator with safe expression evaluation
+  language: python
+  license: MIT
+stack:
+  runtime: python3.11
+  entry_type: cli
+  entrypoints:
+  - type: cli
+    name: calc-cli
+    module: calc_cli.__main__:main
+deps:
+  prod: []
+  dev:
+  - pytest
+io:
+  inputs:
+  - name: args
+    type: arg
+    schema: subcommands add|sub|mul|div|pow|sqrt; --expr string expression
+  outputs:
+  - name: stdout
+    type: stdout
+    schema: numeric result as text
+cli:
+  commands:
+  - name: calc-cli
+    args:
+    - name: cmd
+      type: str
+      help: add|sub|mul|div|pow|sqrt
+      required: false
+    - name: a
+      type: float
+      required: false
+    - name: b
+      type: float
+      required: false
+    - name: x
+      type: float
+      required: false
+    - name: --expr
+      type: str
+      default: null
+      help: safe expression
+    description: tiny calculator
+files:
+  include:
+  - path: src/calc_cli/__init__.py
+    purpose: package marker
+  - path: src/calc_cli/core.py
+    purpose: math ops + safe expr eval
+  - path: src/calc_cli/__main__.py
+    purpose: CLI entry
+  - path: tests/test_core.py
+    purpose: unit tests for core
+  - path: tests/test_cli.py
+    purpose: CLI tests
+  - path: README.md
+    purpose: usage
+  - path: requirements.txt
+    purpose: deps
+constraints:
+  must:
+  - Division by zero raises ZeroDivisionError
+  - sqrt of negative raises ValueError
+  must_not: []
+  perf:
+    time_sec_max: 2
+    memory_mb_max: 256
+acceptance:
+  unit_tests:
+  - CLI supports add/sub/mul/div/pow/sqrt
+  - --expr evaluates +,-,*,/,%,//,**, parentheses
+  golden_tests:
+  - name: expr_sanity
+    arrange: {}
+    act: python -m calc_cli --expr '2*(3+4) - 5**2/5'
+    assert_stdout_contains:
+    - '9.0'
+build:
+  commands:
+    install: pip install -r requirements.txt
+    test: pytest -q
+quality:
+  coding_standards:
+  - PEP8 basic
+  linters: []
+  static_types: []
+risk_register:
+  assumptions:
+  - fits in stdlib; no external math libs required
+  open_questions: []
+  out_of_scope:
+  - big-int perf; arbitrary precision
